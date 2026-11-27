@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://sayaka-rust-api.onrender.com
+      url: https://elcica-api.onrender.com
     steps:
       - name: Trigger deploy hook
         env:

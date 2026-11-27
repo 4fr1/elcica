@@ -1,4 +1,4 @@
-# sayaka-rust-api
+# elcica
 
 Scaffold repo baru untuk stack:
 
@@ -97,9 +97,8 @@ Pakai Cloudflare Worker + Cron yang sudah dibahas, ping `/health` tiap 10 menit.
 ## Buat remote GitHub (karena `gh` belum terinstall)
 
 ```bash
-# 1. Buat repo kosong di https://github.com/new (nama: sayaka-rust-api, JANGAN init README)
-# 2. Di folder ini:
-git remote add origin https://github.com/<USERNAME>/sayaka-rust-api.git
+# Remote: https://github.com/4fr1/elcica (sudah saya daftarkan sebagai origin)
+git remote add origin https://github.com/4fr1/elcica.git
 git push -u origin main
 git push -u origin dev
 ```

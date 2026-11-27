@@ -1,5 +1,5 @@
 [package]
-name = "sayaka-rust-api"
+name = "elcica"
 version = "0.1.0"
 edition = "2021"
 description = "Backend Rust (Axum + sqlx) untuk stack Cloudflare + Neon + Render"
