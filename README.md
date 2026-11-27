@@ -1,4 +1,5 @@
 # elcica
+> Latihan alur branch: feature → dev → main.
 
 Scaffold repo baru untuk stack:
 
