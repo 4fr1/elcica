@@ -2,9 +2,10 @@ name: Belajar - Schedule
 
 # TRIGGER: schedule (WAKTU)
 # CARA MENGUJI:
-#   Tunggu sampai menit kelipatan 15, lalu cek tab Actions.
-#   Atau: workflow ini HANYA jalan di branch DEFAULT repo (dev).
-#   Jadi baru aktif setelah file ini di-merge ke dev.
+#   1. Otomatis: tunggu kelipatan 15 menit UTC, lalu cek tab Actions.
+#      Schedule HANYA jalan di branch DEFAULT repo (dev).
+#   2. Manual: tab Actions -> workflow ini -> Run workflow -> lihat log.
+#      Dipakai kalau antrean GitHub telat (job schedule bisa di-drop).
 #
 # PENTING: cron pakai UTC, bukan WIB.
 #   '*/15 * * * *' = tiap 15 menit UTC
@@ -15,6 +16,7 @@ name: Belajar - Schedule
 on:
   schedule:
     - cron: '*/15 * * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
