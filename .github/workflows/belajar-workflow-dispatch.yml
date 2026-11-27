@@ -1,0 +1,43 @@
+name: Belajar - Workflow Dispatch
+
+# TRIGGER: workflow_dispatch (MANUAL)
+# CARA MENGUJI:
+#   tab Actions -> "Belajar - Workflow Dispatch" -> Run workflow
+#   -> isi mode & pesan -> jalankan.
+# Tidak akan pernah jalan otomatis.
+# LIHAT HASIL: log di run yang baru saja kamu mulai.
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Pilih mode'
+        required: true
+        default: santai
+        type: choice
+        options:
+          - santai
+          - serius
+      pesan:
+        description: 'Tulis pesan apa pun'
+        required: false
+        default: 'halo dari GitHub Actions'
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tampilkan input
+        env:
+          MODE: ${{ inputs.mode }}
+          PESAN: ${{ inputs.pesan }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          echo "Trigger : workflow_dispatch"
+          echo "Mode    : $MODE"
+          echo "Pesan   : $PESAN"
+          echo "Ditekan oleh : $ACTOR"

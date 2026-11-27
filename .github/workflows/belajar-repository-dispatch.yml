@@ -1,0 +1,36 @@
+name: Belajar - Repository Dispatch
+
+# TRIGGER: repository_dispatch (dipicu dari LUAR lewat API)
+# CARA MENGUJI (butuh token / gh CLI):
+#   gh api repos/4fr1/elcica/dispatches \
+#     -f event_type=cek-harga \
+#     -f 'client_payload[alasan]=latihan trigger'
+#
+#   Atau lewat curl dengan Personal Access Token:
+#   curl -X POST https://api.github.com/repos/4fr1/elcica/dispatches \
+#     -H "Authorization: Bearer TOKEN_KAMU" \
+#     -H "Accept: application/vnd.github+json" \
+#     -d '{"event_type":"cek-harga","client_payload":{"alasan":"latihan trigger"}}'
+#
+# Tidak ada tombol di UI untuk trigger ini — memang lewat API.
+# LIHAT HASIL: tab Actions -> "Belajar - Repository Dispatch"
+
+on:
+  repository_dispatch:
+    types: [cek-harga]
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info payload
+        env:
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          AKSI: ${{ github.event.action }}
+        run: |
+          echo "Trigger : repository_dispatch"
+          echo "Tipe    : $AKSI"
+          echo "Payload : $PAYLOAD"

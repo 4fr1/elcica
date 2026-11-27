@@ -1,0 +1,33 @@
+name: Belajar - Pull Request
+
+# TRIGGER: pull_request
+# CARA MENGUJI:
+#   Buat PR dengan BASE = dev, compare = branch apa pun.
+#   `branches: [dev]` itu branch TUJUAN, bukan branch sumber.
+#   Akan jalan lagi tiap kali ada push baru ke PR (synchronize).
+# LIHAT HASIL: tab Actions -> "Belajar - Pull Request"
+
+on:
+  pull_request:
+    branches: [dev]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info PR
+        env:
+          BASE: ${{ github.event.pull_request.base.ref }}
+          HEAD: ${{ github.event.pull_request.head.ref }}
+          AKSI: ${{ github.event.action }}
+          NOMOR: ${{ github.event.pull_request.number }}
+        run: |
+          echo "Trigger : pull_request"
+          echo "PR      : #$NOMOR"
+          echo "Dari    : $HEAD"
+          echo "Ke      : $BASE"
+          echo "Aksi    : $AKSI"

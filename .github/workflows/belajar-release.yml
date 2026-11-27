@@ -1,0 +1,34 @@
+name: Belajar - Release
+
+# TRIGGER: release (pas release dipublikasikan)
+# CARA MENGUJI:
+#   1. Pastikan ada tag, misalnya demo-1
+#   2. GitHub -> Releases -> Draft a new release
+#   3. Pilih tag demo-1, isi judul, lalu Publish release
+#
+# Beda dengan belajar-tag.yml:
+#   - belajar-tag.yml jalan pas TAG di-push
+#   - file ini jalan pas RELEASE di-publish (tag bisa sudah ada duluan)
+# LIHAT HASIL: tab Actions -> "Belajar - Release"
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info release
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+          JUDUL: ${{ github.event.release.name }}
+          URL: ${{ github.event.release.html_url }}
+        run: |
+          echo "Trigger : release published"
+          echo "Tag     : $TAG"
+          echo "Judul   : $JUDUL"
+          echo "URL     : $URL"

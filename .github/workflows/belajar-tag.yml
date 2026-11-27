@@ -1,0 +1,32 @@
+name: Belajar - Tag
+
+# TRIGGER: push TAG (bukan branch)
+# CARA MENGUJI:
+#   git tag demo-1
+#   git push origin demo-1
+#
+# Pola 'demo-*' sengaja dipakai supaya tidak bentrok dengan
+# workflow android.yml yang memantau tag 'v*'.
+# Catatan: filter tags TIDAK terpengaruh filter branches.
+# LIHAT HASIL: tab Actions -> "Belajar - Tag"
+
+on:
+  push:
+    tags:
+      - 'demo-*'
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info tag
+        env:
+          TAG: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          echo "Trigger : push tag"
+          echo "Tag     : $TAG"
+          echo "Commit  : $SHA"
