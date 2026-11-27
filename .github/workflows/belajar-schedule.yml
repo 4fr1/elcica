@@ -1,0 +1,30 @@
+name: Belajar - Schedule
+
+# TRIGGER: schedule (WAKTU)
+# CARA MENGUJI:
+#   Tunggu sampai menit kelipatan 15, lalu cek tab Actions.
+#   Atau: workflow ini HANYA jalan di branch DEFAULT repo (dev).
+#   Jadi baru aktif setelah file ini di-merge ke dev.
+#
+# PENTING: cron pakai UTC, bukan WIB.
+#   '*/15 * * * *' = tiap 15 menit UTC
+#   GitHub bisa delay 10-30 menit saat ramai.
+#   Cocok untuk backup/laporan, BUKAN keep-alive 10 menit.
+# LIHAT HASIL: tab Actions -> "Belajar - Schedule"
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info waktu
+        run: |
+          echo "Trigger : schedule"
+          echo "Waktu UTC sekarang : $(date -u '+%Y-%m-%d %H:%M:%S')"
+          echo "Waktu WIB sekarang : $(TZ=Asia/Jakarta date '+%Y-%m-%d %H:%M:%S')"

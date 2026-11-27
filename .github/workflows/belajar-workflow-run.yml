@@ -1,0 +1,36 @@
+name: Belajar - Workflow Run
+
+# TRIGGER: workflow_run (setelah workflow LAIN selesai)
+# CARA MENGUJI:
+#   Cukup buat PR atau push ke dev/supaya workflow "CI" jalan.
+#   Setelah "CI" selesai, workflow ini ikut jalan otomatis.
+#
+# Ini gerbang yang kuat: deploy bisa disuruh tunggu CI hijau.
+# LIHAT HASIL: tab Actions -> "Belajar - Workflow Run"
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info workflow sebelumnya
+        env:
+          NAMA: ${{ github.event.workflow_run.name }}
+          HASIL: ${{ github.event.workflow_run.conclusion }}
+          CABANG: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          echo "Trigger : workflow_run"
+          echo "Workflow sebelumnya : $NAMA"
+          echo "Hasil   : $HASIL"
+          echo "Cabang  : $CABANG"
+
+      - name: Contoh gerbang
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: echo "CI hijau -> di sini boleh taruh langkah deploy"

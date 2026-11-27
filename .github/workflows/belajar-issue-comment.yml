@@ -1,0 +1,36 @@
+name: Belajar - Issue Comment
+
+# TRIGGER: issue_comment (ada komentar di issue/PR)
+# CARA MENGUJI:
+#   Buka issue mana pun (misalnya #1), lalu tulis komentar:
+#     /halo
+#
+#   Step kedua cuma jalan kalau komentar diawali /halo.
+#   Ini contoh "command" seperti @dependabot rebase.
+# LIHAT HASIL: tab Actions -> "Belajar - Issue Comment"
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info komentar
+        env:
+          ISI: ${{ github.event.comment.body }}
+          NOMOR: ${{ github.event.issue.number }}
+          PENULIS: ${{ github.event.comment.user.login }}
+        run: |
+          echo "Trigger : issue_comment"
+          echo "Issue/PR: #$NOMOR"
+          echo "Oleh    : $PENULIS"
+          echo "Isi     : $ISI"
+
+      - name: Perintah /halo
+        if: startsWith(github.event.comment.body, '/halo')
+        run: echo "Perintah /halo diterima — di sini bisa taruh aksi khusus"

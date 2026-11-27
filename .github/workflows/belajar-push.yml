@@ -1,0 +1,31 @@
+name: Belajar - Push
+
+# TRIGGER: push
+# CARA MENGUJI:
+#   Push commit ke branch dev atau feature/belajar-trigger.
+#   Perubahan di folder docs/ sengaja diabaikan (paths-ignore).
+# LIHAT HASIL: tab Actions -> "Belajar - Push"
+
+on:
+  push:
+    branches: [dev, feature/belajar-trigger]
+    paths-ignore:
+      - 'docs/**'
+
+permissions:
+  contents: read
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Info event
+        env:
+          REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          echo "Trigger : push"
+          echo "Ref     : $REF"
+          echo "Commit  : $SHA"
+          echo "Oleh    : $ACTOR"
