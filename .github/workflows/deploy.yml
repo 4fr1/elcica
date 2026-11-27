@@ -1,0 +1,21 @@
+name: Deploy ke Render (manual)
+
+# Pilih SATU: Render auto-deploy dari branch main (default), ATAU workflow ini.
+# Kalau Render auto-deploy aktif, jangan jalankan ini barengan (double deploy).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://sayaka-rust-api.onrender.com
+    steps:
+      - name: Trigger deploy hook
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: curl --fail --silent --show-error -X POST "$RENDER_DEPLOY_HOOK"

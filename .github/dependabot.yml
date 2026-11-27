@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  # Aktifkan setelah folder app/android berisi project Gradle:
+  # - package-ecosystem: gradle
+  #   directory: /app/android
+  #   schedule:
+  #     interval: weekly

@@ -1,0 +1,14 @@
+/target
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+keystore.properties
+local.properties
+*.dump
+backup.sql.gz
+.DS_Store
+app/android/.gradle/
+app/android/build/
+app/android/app/build/

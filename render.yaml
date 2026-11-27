@@ -1,0 +1,16 @@
+# Render Blueprint. Database pakai Neon eksternal, bukan Render Free Postgres
+# (Free Postgres expired 30 hari setelah dibuat).
+services:
+  - type: web
+    name: sayaka-rust-api
+    runtime: rust
+    plan: free
+    branch: main
+    buildCommand: cargo build --release
+    startCommand: ./target/release/sayaka-rust-api
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: RUST_LOG
+        value: info

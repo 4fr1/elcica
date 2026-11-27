@@ -1,0 +1,68 @@
+name: Build APK
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    outputs:
+      has_gradle: ${{ steps.check.outputs.has_gradle }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: check
+        run: |
+          if [ -f app/android/gradlew ]; then
+            echo "has_gradle=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_gradle=false" >> "$GITHUB_OUTPUT"
+            echo "Belum ada project Android di app/android — build dilewati."
+          fi
+
+  apk:
+    needs: prep
+    if: needs.prep.outputs.has_gradle == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Decode keystore
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          STORE_PASS: ${{ secrets.ANDROID_STORE_PASS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASS }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > app/android/release.jks
+          printf 'storeFile=release.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$STORE_PASS" "$KEY_ALIAS" "$KEY_PASS" > app/android/keystore.properties
+
+      - name: Build release APK
+        working-directory: app/android
+        run: ./gradlew assembleRelease
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app/android/app/build/outputs/apk/release/*.apk
+          retention-days: 14
+
+      - name: Publikasi ke GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/android/app/build/outputs/apk/release/*.apk
+          generate_release_notes: true
