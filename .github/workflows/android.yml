@@ -14,7 +14,7 @@ jobs:
     outputs:
       has_gradle: ${{ steps.check.outputs.has_gradle }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - id: check
         run: |
           if [ -f app/android/gradlew ]; then
@@ -29,7 +29,7 @@ jobs:
     if: needs.prep.outputs.has_gradle == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-java@v4
         with:
