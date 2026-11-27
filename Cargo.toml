@@ -7,7 +7,7 @@ description = "Backend Rust (Axum + sqlx) untuk stack Cloudflare + Neon + Render
 [dependencies]
 axum = "0.8"
 tokio = { version = "1", features = ["full"] }
-sqlx = { version = "0.8", default-features = false, features = [
+sqlx = { version = "0.9", default-features = false, features = [
     "runtime-tokio",
     "tls-rustls",
     "postgres",
