@@ -8,6 +8,7 @@ async fn root() -> Json<Value> {
     Json(json!({
         "app": env!("CARGO_PKG_NAME"),
         "version": env!("CARGO_PKG_VERSION"),
+        "latihan": "versi-1",
     }))
 }
 

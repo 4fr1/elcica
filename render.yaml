@@ -1,16 +1,17 @@
-# Render Blueprint. Database pakai Neon eksternal, bukan Render Free Postgres
-# (Free Postgres expired 30 hari setelah dibuat).
+# Render Blueprint - TEMPLATE UNTUK BELAJAR UPDATE
+# Beda dengan render.yaml di main:
+#   - branch = template/render-update (bukan main)
+#   - healthCheckPath = "/" (tidak butuh Neon / DATABASE_URL)
+#   - service name = elcica-template (tidak bentrok dengan elcica-api)
 services:
   - type: web
-    name: elcica-api
+    name: elcica-template
     runtime: rust
     plan: free
-    branch: main
+    branch: template/render-update
     buildCommand: cargo build --release
     startCommand: ./target/release/elcica
-    healthCheckPath: /health
+    healthCheckPath: /
     envVars:
-      - key: DATABASE_URL
-        sync: false
       - key: RUST_LOG
         value: info
